@@ -1,0 +1,618 @@
+/* La reserva: tira de días, plano, agenda de la mesa, datos y confirmación. */
+
+.interior--angosto {
+  max-width: 760px;
+}
+
+.boton-texto {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.aviso {
+  padding: 14px 16px;
+  background: #3a1f1a;
+  color: #ffd2c8;
+  font-weight: 600;
+}
+
+.reservador {
+  display: grid;
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.reservador__subtitulo {
+  font-size: var(--t-afirmacion);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.reservador__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.reservador__dias {
+  display: grid;
+  gap: 14px;
+}
+
+.reservador__cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  gap: clamp(16px, 2vw, 32px);
+  align-items: start;
+}
+
+.reservador__plano {
+  display: grid;
+  gap: 16px;
+  background: var(--carbon);
+  padding: clamp(14px, 2vw, 24px);
+}
+
+.reservador__filtro {
+  display: grid;
+  gap: 10px;
+}
+
+.reservador__pregunta {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.reservador__panel {
+  position: sticky;
+  top: 96px;
+  display: grid;
+  gap: 16px;
+  background: var(--carbon);
+  padding: clamp(18px, 2vw, 28px);
+  scroll-margin-top: 90px;
+}
+
+@media (max-width: 1023px) {
+  .reservador__cuerpo {
+    grid-template-columns: 1fr;
+  }
+
+  .reservador__panel {
+    position: static;
+  }
+
+  .reservador__plano {
+    margin-inline: calc(-1 * var(--margen));
+  }
+}
+
+.panel-vacio {
+  display: grid;
+  gap: 10px;
+}
+
+.panel-mesa {
+  display: grid;
+  gap: 18px;
+}
+
+.panel-mesa__detalle,
+.panel-mesa__ayuda {
+  color: var(--tiza-2);
+  font-size: var(--t-nota);
+  margin-top: 4px;
+}
+
+/* ── La tira de días ──────────────────────────────────────────────────────── */
+
+.tira {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  padding-bottom: 6px;
+  margin-inline: calc(-1 * var(--margen));
+  padding-inline: var(--margen);
+}
+
+.tira__dia {
+  flex: none;
+  scroll-snap-align: start;
+  width: 84px;
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+  padding: 12px 12px 10px;
+  border: 0;
+  background: var(--carbon);
+  text-align: left;
+  transition:
+    background-color var(--mov-rapido) ease,
+    transform var(--mov-rapido) var(--curva);
+}
+
+.tira__dia:hover:not(:disabled) {
+  background: var(--grafito);
+}
+
+.tira__dia:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.tira__dia[aria-pressed="true"] {
+  background: var(--oro);
+  color: var(--sobre-oro);
+}
+
+.tira__dia:disabled {
+  cursor: not-allowed;
+  color: #6f6a64;
+}
+
+.tira__nombre {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.tira__numero {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.tira__estado {
+  min-height: 1.1em;
+  font-size: 0.8125rem;
+}
+
+.tira__barra {
+  width: 100%;
+  height: 4px;
+  background: var(--hierro);
+}
+
+.tira__barra i {
+  display: block;
+  height: 100%;
+  background: var(--pano-claro);
+}
+
+.tira__dia[aria-pressed="true"] .tira__barra {
+  background: rgb(0 0 0 / 0.2);
+}
+
+.tira__dia[aria-pressed="true"] .tira__barra i {
+  background: var(--negro);
+}
+
+/* ── El calendario ────────────────────────────────────────────────────────── */
+
+.calendario {
+  max-width: 420px;
+  background: var(--carbon);
+  padding: 16px;
+}
+
+.calendario__cabeza {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.calendario__mes {
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.calendario__mover {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: var(--grafito);
+}
+
+.calendario__mover:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.calendario__rejilla {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendario__semana {
+  padding: 4px 0;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--tiza-2);
+}
+
+.calendario__dia {
+  aspect-ratio: 1;
+  border: 0;
+  background: var(--grafito);
+  font-weight: 600;
+  transition: background-color var(--mov-rapido) ease;
+}
+
+.calendario__dia:hover:not(:disabled) {
+  background: var(--humo);
+}
+
+.calendario__dia[data-lleno] {
+  color: var(--tiza-2);
+}
+
+.calendario__dia[aria-pressed="true"] {
+  background: var(--oro);
+  color: var(--sobre-oro);
+}
+
+.calendario__dia:disabled {
+  background: transparent;
+  color: #5d5853;
+  cursor: not-allowed;
+}
+
+/* ── La agenda de la mesa ─────────────────────────────────────────────────── */
+
+.agenda {
+  display: grid;
+  gap: 18px;
+}
+
+.agenda__horas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.agenda__hora {
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+  padding: 10px 12px;
+  border: 0;
+  background: var(--grafito);
+  text-align: left;
+  transition:
+    background-color var(--mov-rapido) ease,
+    transform var(--mov-rapido) var(--curva);
+}
+
+.agenda__hora span {
+  font-weight: 700;
+}
+
+.agenda__hora small {
+  font-size: 0.8125rem;
+  color: var(--tiza-2);
+}
+
+.agenda__hora[data-estado="libre"] {
+  background: #13385c;
+}
+
+.agenda__hora[data-estado="libre"]:hover {
+  background: #184a79;
+}
+
+.agenda__hora[data-estado="libre"]:active {
+  transform: scale(0.97);
+}
+
+.agenda__hora:disabled {
+  cursor: not-allowed;
+  color: #77716b;
+}
+
+.agenda__hora[data-estado="reservada"] small,
+.agenda__hora[data-estado="bloqueada"] small {
+  color: #a18a7f;
+}
+
+.agenda__hora[data-dentro] {
+  background: var(--pano-vivo);
+}
+
+.agenda__hora[data-dentro] small {
+  color: var(--tiza);
+}
+
+.agenda__hora[data-inicio] {
+  background: var(--oro);
+  color: var(--sobre-oro);
+}
+
+.agenda__hora[data-inicio] small {
+  color: var(--sobre-oro);
+}
+
+.agenda__duracion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+
+.agenda__pregunta {
+  font-weight: 700;
+}
+
+.agenda__nota {
+  width: 100%;
+  color: var(--tiza-2);
+  font-size: var(--t-nota);
+}
+
+.contador {
+  display: flex;
+  align-items: stretch;
+}
+
+.contador__boton {
+  width: 48px;
+  min-height: 48px;
+  border: 0;
+  background: var(--grafito);
+  font-size: 1.5rem;
+  font-weight: 700;
+  transition: background-color var(--mov-rapido) ease;
+}
+
+.contador__boton:hover:not(:disabled) {
+  background: var(--humo);
+}
+
+.contador__boton:disabled {
+  color: #5d5853;
+  cursor: not-allowed;
+}
+
+.contador__valor {
+  min-width: 104px;
+  display: grid;
+  place-items: center;
+  background: var(--humo);
+  font-weight: 700;
+}
+
+/* ── Resumen ──────────────────────────────────────────────────────────────── */
+
+.resumen {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.resumen__tramo {
+  font-size: var(--t-afirmacion);
+  font-weight: 800;
+}
+
+.resumen__tarifas {
+  display: grid;
+  gap: 2px;
+}
+
+.resumen__anticipo {
+  color: var(--tiza-2);
+  font-size: var(--t-nota);
+}
+
+.resumen__seguir {
+  margin-top: 8px;
+  width: 100%;
+}
+
+/* ── Datos ────────────────────────────────────────────────────────────────── */
+
+.datos {
+  display: grid;
+  gap: 18px;
+}
+
+.datos__volver {
+  justify-self: start;
+  color: var(--oro);
+}
+
+.datos__resumen {
+  color: var(--tiza-2);
+  font-size: var(--t-nota);
+}
+
+.campo--grupo {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.segmentos {
+  display: flex;
+  gap: 4px;
+}
+
+.segmento {
+  flex: 1;
+  position: relative;
+}
+
+.segmento input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.segmento span {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  background: var(--grafito);
+  font-weight: 700;
+  transition: background-color var(--mov-rapido) ease;
+}
+
+.segmento input:hover + span {
+  background: var(--humo);
+}
+
+.segmento input:checked + span {
+  background: var(--oro);
+  color: var(--sobre-oro);
+}
+
+.segmento input:focus-visible + span {
+  outline: 3px solid var(--oro);
+  outline-offset: 2px;
+}
+
+/* ── La ficha de una reserva hecha ───────────────────────────────────────── */
+
+.reservada {
+  display: grid;
+  gap: 16px;
+  max-width: 860px;
+}
+
+.ficha {
+  display: grid;
+  gap: 4px;
+  margin-top: clamp(16px, 3vw, 32px);
+}
+
+.ficha > * {
+  background: var(--carbon);
+  padding: clamp(20px, 3vw, 36px);
+}
+
+.ficha__cabeza {
+  background: var(--pano);
+}
+
+.ficha[data-estado="CANCELADA"] .ficha__cabeza,
+.ficha[data-estado="NO_PRESENTADO"] .ficha__cabeza {
+  background: var(--humo);
+}
+
+.ficha__estado {
+  font-weight: 700;
+}
+
+.ficha__codigo {
+  font-size: clamp(3rem, 10vw, 6.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 8px 0 12px;
+}
+
+.ficha__datos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 32px;
+}
+
+.ficha__datos dt,
+.ficha__pago dt {
+  color: var(--tiza-2);
+  font-size: var(--t-nota);
+}
+
+.ficha__datos dd,
+.ficha__pago dd {
+  margin: 2px 0 0;
+  font-size: 1.1875rem;
+  font-weight: 700;
+}
+
+.ficha__datos dd::first-letter {
+  text-transform: uppercase;
+}
+
+.ficha__anticipo {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+}
+
+.ficha__titulo {
+  font-size: var(--t-afirmacion);
+  font-weight: 800;
+}
+
+.ficha__pago {
+  display: grid;
+  gap: 12px;
+}
+
+.ficha__nota {
+  color: var(--tiza-2);
+}
+
+.ficha__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+
+@media (max-width: 560px) {
+  .ficha__datos {
+    grid-template-columns: 1fr;
+  }
+
+  .ficha__anticipo .boton {
+    width: 100%;
+    white-space: normal;
+    padding-block: 12px;
+  }
+}
+
+.confirmar {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+}
+
+.confirmar__botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ── Consulta ─────────────────────────────────────────────────────────────── */
+
+.consulta {
+  display: grid;
+  gap: 18px;
+  max-width: 480px;
+  margin-top: clamp(24px, 3vw, 40px);
+}
+
+.consulta__codigo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.mireserva {
+  display: grid;
+  gap: 12px;
+}

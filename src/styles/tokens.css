@@ -1,0 +1,63 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Billares Club 8 — tokens.
+
+   Tres colores hacen el trabajo, y los tres salen del club:
+     · el negro del salón y de la marca, que es el suelo de todo;
+     · el dorado del 8 del logo, que es la acción (reservar) y nada más;
+     · el azul del paño de las mesas Jimar, que aparece como campo entero y en el plano.
+   La tiza es la tinta: casi blanca, cálida, como el polvo azul sobre el taco pero al revés.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Suelo y escalones de superficie: se separan por tono, nunca por línea ni sombra. */
+  --negro: #0b0b0c;
+  --carbon: #141416;
+  --grafito: #1d1d20;
+  --humo: #2a2a2e;
+  --hierro: #3a3a3f;
+
+  /* Tinta */
+  --tiza: #f3eee4;
+  --tiza-2: #bdb6aa; /* sólo para notas secundarias */
+
+  /* Acción */
+  --oro: #d4af37;
+  --oro-hondo: #b8952a;
+  --sobre-oro: #0b0b0c;
+
+  /* El paño. El hondo es el de los campos con texto (contraste AA con la tiza); el vivo es el
+     de las mesas dibujadas, donde sólo hay números grandes. */
+  --pano: #1569b5;
+  --pano-vivo: #1f86d9;
+  --pano-claro: #59a9ec;
+  --pano-apagado: #2b3a4a;
+
+  /* Las tres bolas de carambola. */
+  --bola-blanca: #f7f5ef;
+  --bola-amarilla: #f2c230;
+  --bola-roja: #d33a2c;
+
+  /* Estados del panel */
+  --alerta: #e5533f;
+  --exito: #3fb27f;
+
+  /* Tipografía: una sola familia, Archivo, con su eje de anchura para los titulares. */
+  --fuente: var(--font-archivo), "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  /* Cinco tamaños hacen todo el trabajo visible. */
+  --t-titular: clamp(2.25rem, 7.6vw, 8.25rem);
+  --t-seccion: clamp(2rem, 5.4vw, 5.5rem);
+  --t-afirmacion: clamp(1.3rem, 2.1vw, 2.125rem);
+  --t-texto: 1.125rem;
+  --t-nota: 0.9375rem;
+
+  /* Espacio */
+  --margen: clamp(16px, 2.4vw, 32px);
+  --entre-secciones: clamp(96px, 12vw, 200px);
+  --ancho: 1440px;
+
+  --radio: 0px; /* botones y medios de esquina recta: decidido una vez */
+  --mov-rapido: 160ms;
+  --mov: 320ms;
+  --curva: cubic-bezier(0.2, 0.7, 0.1, 1);
+}

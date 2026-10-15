@@ -1,0 +1,199 @@
+/* El plano del salón. Todo se mide en porcentaje del propio plano (unidades de contenedor), así
+   que se ve igual de proporcionado en un teléfono que en la pantalla de la barra. */
+
+.plano {
+  container-type: inline-size;
+  margin: 0;
+  --mesa-ancho: 16%;
+}
+
+.plano__salon {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--plano-suelo, var(--carbon));
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+.plano__elemento {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  background: var(--plano-elemento, var(--grafito));
+  color: var(--tiza-2);
+  font-size: max(11px, 1.6cqw);
+  font-weight: 600;
+  text-align: center;
+  pointer-events: none;
+}
+
+.plano__elemento--barra span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.02em;
+}
+
+.plano__elemento--entrada {
+  background: transparent;
+  color: var(--oro);
+}
+
+.plano__mesa {
+  position: absolute;
+  width: var(--mesa-ancho);
+  padding: 0;
+  border: 0;
+  background: none;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 0.5cqw;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--mov) var(--curva),
+    opacity var(--mov) ease;
+}
+
+.plano__mesa[data-vertical] {
+  width: calc(var(--mesa-ancho) / 2);
+}
+
+.plano__mesa .mesa-svg {
+  width: 100%;
+  height: auto;
+  transition: transform var(--mov-rapido) var(--curva);
+}
+
+.plano__mesa:hover .mesa-svg {
+  transform: scale(1.045);
+}
+
+.plano__mesa:active .mesa-svg {
+  transform: scale(0.98);
+}
+
+.plano__mesa:focus-visible {
+  outline: none;
+}
+
+.plano__mesa:focus-visible .mesa-svg {
+  outline: 3px solid var(--oro);
+  outline-offset: 3px;
+}
+
+/* Con una hora elegida, las mesas que no están libres a esa hora se apagan; las libres quedan
+   enteras. El aro dorado queda sólo para la mesa elegida. */
+
+.plano__mesa[data-atenuada] {
+  opacity: 0.38;
+}
+
+.plano__mesa[data-elegida] {
+  z-index: 2;
+}
+
+.plano__mesa[data-elegida] .mesa-svg {
+  transform: scale(1.08);
+  outline: none;
+}
+
+.plano__mesa[data-alerta]::after {
+  content: "";
+  position: absolute;
+  top: -0.6cqw;
+  right: -0.6cqw;
+  width: 1.8cqw;
+  height: 1.8cqw;
+  min-width: 10px;
+  min-height: 10px;
+  border-radius: 50%;
+  background: var(--alerta);
+  animation: latido 1.6s ease-in-out infinite;
+}
+
+@keyframes latido {
+  50% {
+    transform: scale(1.35);
+    opacity: 0.6;
+  }
+}
+
+.plano__etiqueta {
+  max-width: 140%;
+  color: var(--tiza);
+  font-size: max(11px, 1.5cqw);
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.plano__mesa[data-atenuada] .plano__etiqueta {
+  color: var(--tiza-2);
+}
+
+/* La tira de horas del día bajo cada mesa: un trazo por hora. */
+.plano__horas {
+  display: flex;
+  width: 100%;
+  gap: 1px;
+  height: max(4px, 0.55cqw);
+}
+
+.plano__horas i {
+  flex: 1;
+  background: var(--pano-claro);
+}
+
+.plano__horas i[data-h="tomada"] {
+  background: var(--hierro);
+}
+
+.plano__horas i[data-h="pasada"] {
+  background: var(--grafito);
+}
+
+.plano__pie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding-top: 0.9rem;
+  color: var(--tiza-2);
+  font-size: var(--t-nota);
+}
+
+/* En un plano angosto la tira y la etiqueta larga estorban: queda el número y el color. */
+@container (max-width: 520px) {
+  .plano__horas {
+    display: none;
+  }
+
+  .plano__etiqueta {
+    font-size: 10px;
+  }
+}
+
+.plano[data-editable] .plano__mesa {
+  cursor: grab;
+  touch-action: none;
+}
+
+.plano[data-editable] .plano__mesa:active {
+  cursor: grabbing;
+}
+
+/* La leyenda: muestras de color con su significado escrito al lado. */
+.leyenda {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.leyenda::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: var(--muestra, var(--pano-vivo));
+}

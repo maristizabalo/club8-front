@@ -1,0 +1,14 @@
+# El proyecto corre en contenedores Linux: todo el texto se guarda con LF, también al
+# clonar en Windows. Un script .sh con CRLF no arranca dentro del contenedor.
+* text=auto eol=lf
+
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.gif   binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+*.exe   binary
+*.db    binary

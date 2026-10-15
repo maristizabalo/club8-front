@@ -1,0 +1,8 @@
+/* El estilo entra por aquí y sólo por aquí. El orden importa: tokens, base, piezas compartidas,
+   y al final cada superficie (sitio, reserva, panel). */
+@import "../styles/tokens.css";
+@import "../styles/base.css";
+@import "../styles/plano.css";
+@import "../styles/sitio.css";
+@import "../styles/reserva.css";
+@import "../styles/panel.css";

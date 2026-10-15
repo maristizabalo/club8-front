@@ -1,0 +1,760 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Panel de operación.
+
+   Es una herramienta de turno, no una portada: más densa, tipografía más chica, y tablas y
+   formularios con sus propias convenciones. Comparte los tokens del sitio para que el club se
+   vea igual de los dos lados del mostrador.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.pn {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  background: var(--negro);
+  font-size: 1rem;
+}
+
+.pn-cargando,
+.pn-ingreso {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--margen);
+}
+
+.pn-ingreso__caja {
+  width: min(100%, 400px);
+  display: grid;
+  gap: 18px;
+  padding: clamp(24px, 4vw, 40px);
+  background: var(--carbon);
+}
+
+.pn-lado {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px 14px;
+  background: var(--carbon);
+}
+
+.pn-lado__nav {
+  display: grid;
+  gap: 2px;
+}
+
+.pn-lado__enlace {
+  padding: 12px 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color var(--mov-rapido) ease;
+}
+
+.pn-lado__enlace:hover {
+  background: var(--grafito);
+}
+
+.pn-lado__enlace[aria-current="page"] {
+  background: var(--oro);
+  color: var(--sobre-oro);
+}
+
+.pn-lado__usuario {
+  margin-top: auto;
+  display: grid;
+  gap: 10px;
+  font-size: 0.9375rem;
+}
+
+.pn-lado__usuario span {
+  color: var(--tiza-2);
+}
+
+.pn-lado__acciones {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pn-contenido {
+  min-width: 0;
+  padding: clamp(16px, 2.4vw, 32px);
+}
+
+@media (max-width: 900px) {
+  .pn {
+    grid-template-columns: 1fr;
+  }
+
+  .pn-lado {
+    position: sticky;
+    z-index: 30;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    overflow-x: auto;
+  }
+
+  .pn-lado__logo img {
+    width: 56px;
+    height: auto;
+  }
+
+  .pn-lado__nav {
+    display: flex;
+  }
+
+  .pn-lado__enlace {
+    padding: 10px 12px;
+    white-space: nowrap;
+  }
+
+  .pn-lado__usuario {
+    margin: 0 0 0 auto;
+  }
+
+  .pn-lado__usuario p {
+    display: none;
+  }
+}
+
+/* ── Tipografía del panel ─────────────────────────────────────────────────── */
+
+.pn-titulo {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.pn-subtitulo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.pn-subtitulo--chico {
+  font-size: 1.0625rem;
+}
+
+.pn-nota {
+  color: var(--tiza-2);
+  font-size: 0.9375rem;
+}
+
+.pn-codigo {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+/* ── Piezas ───────────────────────────────────────────────────────────────── */
+
+.pn-pagina {
+  display: grid;
+  gap: 16px;
+  max-width: 1500px;
+}
+
+.pn-cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px 24px;
+}
+
+.pn-cabeza__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pn-tarjeta {
+  background: var(--carbon);
+  padding: clamp(14px, 1.8vw, 22px);
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  min-width: 0;
+}
+
+.pn-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  background: var(--grafito);
+  color: var(--tiza);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  transition:
+    background-color var(--mov-rapido) ease,
+    transform var(--mov-rapido) var(--curva);
+}
+
+.pn-boton:hover {
+  background: var(--humo);
+}
+
+.pn-boton:active {
+  transform: scale(0.98);
+}
+
+.pn-boton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pn-boton--oro {
+  background: var(--oro);
+  color: var(--sobre-oro);
+}
+
+.pn-boton--oro:hover {
+  background: #e2bf4b;
+}
+
+.pn-boton--plano {
+  background: transparent;
+  color: var(--tiza);
+  text-decoration: underline;
+  text-decoration-color: var(--oro);
+  text-underline-offset: 0.2em;
+  padding: 0 10px;
+}
+
+.pn-boton--plano:hover {
+  background: var(--grafito);
+}
+
+.pn-fecha {
+  display: flex;
+  gap: 4px;
+}
+
+.pn-fecha__entrada {
+  min-height: 44px;
+  width: auto;
+}
+
+.pn-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  background: var(--humo);
+  white-space: nowrap;
+}
+
+.pn-estado::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+}
+
+.pn-estado[data-estado="PENDIENTE"] {
+  color: var(--oro);
+}
+
+.pn-estado[data-estado="CONFIRMADA"] {
+  color: var(--pano-claro);
+}
+
+.pn-estado[data-estado="ATENDIDA"],
+.pn-estado[data-estado="LIBRE"] {
+  color: var(--exito);
+}
+
+.pn-estado[data-estado="CANCELADA"],
+.pn-estado[data-estado="NO_PRESENTADO"],
+.pn-estado[data-estado="FUERA_DE_SERVICIO"] {
+  color: var(--tiza-2);
+}
+
+.pn-estado[data-estado="EN_JUEGO"] {
+  color: var(--pano-claro);
+}
+
+.pn-estado[data-estado="BLOQUEADA"] {
+  color: #ff9d8c;
+}
+
+.pn-alerta {
+  padding: 10px 12px;
+  background: #3a1f1a;
+  color: #ffd2c8;
+  font-weight: 700;
+}
+
+.pn-alertas {
+  display: grid;
+  gap: 6px;
+  color: #ffd2c8;
+}
+
+/* KPIs: cifras grandes, una fila */
+
+.pn-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 6px;
+}
+
+.pn-kpis > div {
+  padding: 14px 16px;
+  background: var(--carbon);
+}
+
+.pn-kpis > div[data-tono="oro"] {
+  background: #2c2610;
+}
+
+.pn-kpis dt {
+  color: var(--tiza-2);
+  font-size: 0.875rem;
+}
+
+.pn-kpis dd {
+  margin: 4px 0 0;
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pn-kpis dd small {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--tiza-2);
+}
+
+/* El salón: plano y mesa elegida */
+
+.pn-salon {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 16px;
+  align-items: start;
+}
+
+.pn-salon__mesa {
+  position: sticky;
+  top: 16px;
+}
+
+@media (max-width: 1180px) {
+  .pn-salon {
+    grid-template-columns: 1fr;
+  }
+
+  .pn-salon__mesa {
+    position: static;
+  }
+}
+
+.pn-vacio,
+.pn-mesa {
+  display: grid;
+  gap: 14px;
+}
+
+.pn-mesa__cabeza {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pn-mesa__bloque {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  background: var(--grafito);
+}
+
+.pn-mesa__bloque .entrada {
+  background: var(--humo);
+}
+
+.pn-reloj {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.pn-lista-corta {
+  display: grid;
+  gap: 4px;
+}
+
+.pn-lista-corta li {
+  display: flex;
+  gap: 6px;
+}
+
+.pn-fila-boton {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 0;
+  background: var(--humo);
+  text-align: left;
+  font-size: 0.9375rem;
+}
+
+.pn-fila-boton:hover {
+  background: var(--hierro);
+}
+
+/* La agenda del día: una pista por mesa, una columna por hora */
+
+.pn-agenda-marco {
+  overflow-x: auto;
+}
+
+.pn-agenda {
+  min-width: 960px;
+  display: grid;
+  gap: 3px;
+  --mesa: 88px;
+}
+
+.pn-agenda__horas,
+.pn-agenda__fila {
+  display: grid;
+  grid-template-columns: var(--mesa) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.pn-agenda__horas {
+  grid-template-columns: var(--mesa) repeat(var(--columnas), minmax(0, 1fr));
+  color: var(--tiza-2);
+  font-size: 0.8125rem;
+}
+
+.pn-agenda__mesa {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.pn-agenda__pista {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--columnas), minmax(0, 1fr));
+  gap: 2px;
+  height: 40px;
+}
+
+.pn-agenda__celda {
+  border: 0;
+  padding: 0;
+  background: var(--grafito);
+  transition: background-color var(--mov-rapido) ease;
+}
+
+.pn-agenda__celda[data-estado="libre"]:hover {
+  background: #184a79;
+}
+
+.pn-agenda__celda[data-estado="pasada"] {
+  background: #161618;
+  cursor: default;
+}
+
+.pn-agenda__celda[data-estado="bloqueada"] {
+  background: repeating-linear-gradient(45deg, var(--humo) 0 6px, var(--hierro) 6px 10px);
+  cursor: default;
+}
+
+.pn-agenda__celda[data-estado="reservada"] {
+  cursor: default;
+}
+
+.pn-agenda__reserva {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border: 0;
+  background: var(--pano-vivo);
+  color: var(--tiza);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: filter var(--mov-rapido) ease;
+}
+
+.pn-agenda__reserva span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pn-agenda__reserva:hover {
+  filter: brightness(1.15);
+}
+
+.pn-agenda__reserva[data-estado="PENDIENTE"] {
+  background: var(--oro);
+  color: var(--sobre-oro);
+}
+
+.pn-agenda__reserva[data-estado="ATENDIDA"] {
+  background: #23573f;
+}
+
+.pn-agenda__ahora {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--alerta);
+  pointer-events: none;
+}
+
+/* Tablas */
+
+.pn-tabla-marco {
+  overflow-x: auto;
+}
+
+.pn-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.pn-tabla th,
+.pn-tabla td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.pn-tabla thead th {
+  color: var(--tiza-2);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  border-bottom: 1px solid var(--humo);
+}
+
+.pn-tabla tbody tr {
+  border-bottom: 1px solid var(--grafito);
+}
+
+.pn-tabla tbody tr[data-estado] {
+  cursor: pointer;
+}
+
+.pn-tabla tbody tr[data-estado]:hover {
+  background: var(--grafito);
+}
+
+.pn-tabla tbody tr[data-estado="CANCELADA"],
+.pn-tabla tbody tr[data-estado="NO_PRESENTADO"] {
+  color: var(--tiza-2);
+}
+
+.pn-tabla--formulario td {
+  padding: 4px 6px;
+}
+
+.pn-tabla--formulario .entrada {
+  min-height: 42px;
+  padding: 6px 10px;
+}
+
+.pn-tabla--formulario input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--oro);
+}
+
+/* Filtros */
+
+.pn-filtros {
+  grid-template-columns: minmax(200px, 2fr) repeat(2, minmax(140px, 1fr));
+  align-items: end;
+}
+
+.pn-filtros__estados {
+  grid-column: 1 / -1;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.pn-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+@media (max-width: 700px) {
+  .pn-filtros {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Formularios */
+
+.pn-form {
+  display: grid;
+  gap: 14px;
+}
+
+.pn-form--marco {
+  padding: 14px;
+  background: var(--grafito);
+}
+
+.pn-form__fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.pn-form__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+
+.pn-interruptor {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pn-interruptor input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--oro);
+}
+
+/* Detalle de reserva */
+
+.pn-detalle {
+  display: grid;
+  gap: 18px;
+}
+
+.pn-detalle__cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.pn-detalle__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pn-detalle__nota {
+  flex-basis: 100%;
+}
+
+.pn-datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px 20px;
+}
+
+.pn-datos dt {
+  color: var(--tiza-2);
+  font-size: 0.8125rem;
+}
+
+.pn-datos dd {
+  margin: 2px 0 0;
+  font-weight: 700;
+}
+
+.pn-datos__ancho {
+  grid-column: 1 / -1;
+}
+
+.pn-historial {
+  display: grid;
+  gap: 6px;
+  font-size: 0.9375rem;
+}
+
+.pn-historial li {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) auto;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--grafito);
+}
+
+@media (max-width: 640px) {
+  .pn-historial li {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+/* Diálogo: lo único que flota en el panel, y por eso lo único con sombra */
+
+.pn-dialogo {
+  width: min(100% - 24px, 560px);
+  max-height: min(100% - 24px, 900px);
+  padding: 0;
+  border: 0;
+  background: var(--carbon);
+  color: var(--tiza);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 0.6);
+}
+
+.pn-dialogo--ancho {
+  width: min(100% - 24px, 860px);
+}
+
+.pn-dialogo::backdrop {
+  background: rgb(0 0 0 / 0.66);
+}
+
+.pn-dialogo__caja {
+  display: grid;
+  gap: 18px;
+  padding: clamp(18px, 3vw, 28px);
+}
+
+.pn-dialogo__cabeza {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pn-dialogo .entrada {
+  background: var(--grafito);
+}
