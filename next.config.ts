@@ -21,12 +21,6 @@ const nextConfig: NextConfig = {
 
   images: {
     formats: ["image/avif", "image/webp"],
-    // Las fotos del club viven hoy en el CDN del sitio anterior. Hay que copiarlas a /public
-    // antes de apagar ese sitio (ver README).
-    remotePatterns: [
-      { protocol: "https", hostname: "assets.zyrosite.com", pathname: "/**" },
-      { protocol: "https", hostname: "cdn.zyrosite.com", pathname: "/**" },
-    ],
   },
 };
 

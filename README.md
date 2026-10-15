@@ -68,6 +68,8 @@ npm run build
   se dibujan en SVG como mesas de carambola (baranda, paño, diamantes, sin troneras) y cada una es un
   botón accesible con teclado y lector de pantalla.
 - `lib/api.ts` es la única puerta a la API; `lib/tipos.ts` es el contrato con el backend.
+- **Las fotos del club** viven en `public/fotos` y se listan en `lib/fotos.ts`. Ya no dependen del
+  CDN del sitio anterior, así que se puede cancelar sin que se pierdan.
 
 ## Docker
 
@@ -80,7 +82,5 @@ La imagen usa la salida `standalone` de Next (`node server.js`).
 
 ## Pendientes antes de redirigir el dominio
 
-- **Fotos**: hoy se cargan desde el CDN del sitio viejo (`lib/fotos.ts`). Hay que copiarlas a
-  `public/fotos` y cambiar las rutas antes de cancelar ese sitio, o dejarán de verse.
 - **Plano real**: acomodar las doce mesas, la barra y la entrada donde están de verdad.
 - **Datos de pago y la tarifa de 5 a 6 p. m.**: cargarlos en Ajustes.
